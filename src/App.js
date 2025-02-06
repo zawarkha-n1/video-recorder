@@ -7,10 +7,41 @@ const App = () => {
   const [recordedVideo, setRecordedVideo] = useState(null);
   const [stream, setStream] = useState(null);
 
+  // const startRecording = async () => {
+  //   try {
+  //     const userStream = await navigator.mediaDevices.getUserMedia({
+  //       video: true,
+  //       audio: true,
+  //     });
+  //     setStream(userStream);
+  //     videoRef.current.srcObject = userStream;
+
+  //     const mediaRecorder = new MediaRecorder(userStream);
+  //     mediaRecorderRef.current = mediaRecorder;
+  //     const chunks = [];
+
+  //     mediaRecorder.ondataavailable = (event) => {
+  //       if (event.data.size > 0) {
+  //         chunks.push(event.data);
+  //       }
+  //     };
+
+  //     mediaRecorder.onstop = () => {
+  //       const recordedBlob = new Blob(chunks, { type: "video/webm" });
+  //       setRecordedVideo(URL.createObjectURL(recordedBlob));
+  //     };
+
+  //     mediaRecorder.start();
+  //     setRecording(true);
+  //   } catch (error) {
+  //     console.error("Error accessing media devices:", error);
+  //   }
+  // };
+
   const startRecording = async () => {
     try {
       const userStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
+        video: { facingMode: "environment" }, // Forces back camera
         audio: true,
       });
       setStream(userStream);
@@ -35,6 +66,7 @@ const App = () => {
       setRecording(true);
     } catch (error) {
       console.error("Error accessing media devices:", error);
+      alert("Error accessing camera. Ensure camera permissions are allowed.");
     }
   };
 
